@@ -5,6 +5,7 @@ import torch
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 
+use_cuda = os.environ.get('TTS_WORKER_USE_CUDA', 'True').lower() == 'true'
 
 class Predictor:
     def __init__(self, model_dir: str):
@@ -17,12 +18,13 @@ class Predictor:
         )
         self.model = Xtts.init_from_config(self.config)
         self.model.load_checkpoint(
-            config,
+            self.config,
             checkpoint_dir=self.model_dir,
             use_deepspeed=True,
             eval=True
         )
-        self.model.cuda()
+        if use_cuda:
+            self.model.cuda()
 
     @torch.inference_mode()
     def predict(

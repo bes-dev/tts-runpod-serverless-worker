@@ -57,7 +57,7 @@ def run(job):
     # Inference text-to-audio
     wav = MODEL.predict(
         language=validated_input["language"],
-        voice=validated_input["voice"],
+        speaker_wav=validated_input["voice"],
         text=validated_input["text"],
         gpt_cond_len=validated_input["gpt_cond_len"],
         max_ref_len=validated_input["max_ref_len"]

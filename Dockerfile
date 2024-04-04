@@ -1,12 +1,13 @@
-FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
+FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 # Build args
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
-ENV MODEL_DIR=/model
+ENV MODEL_DIR=/app/model
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-WORKDIR /
+RUN mkdir /app
+WORKDIR /app
 
 SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,9 +32,9 @@ ENV HOME=/home/user
 ENV SHELL=/bin/bash
 
 # Install Python dependencies (Worker Template)
-COPY builder/requirements.txt /requirements.txt
-RUN pip install --no-cache-dir -r /requirements.txt && \
-    rm /requirements.txt
+COPY builder/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt && \
+    rm /app/requirements.txt
 
 # Fetch the model
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
@@ -42,8 +43,8 @@ RUN git lfs install
 RUN git clone https://huggingface.co/coqui/XTTS-v2 ${MODEL_DIR}
 
 # Add src files (Worker Template)
-ADD src .
+ADD src /app
 
 ENV RUNPOD_DEBUG_LEVEL=INFO
 
-CMD python3 -u /rp_handler.py --model-dir="${MODEL_DIR}"
+CMD python3 -u /app/rp_handler.py --model-dir="${MODEL_DIR}"
