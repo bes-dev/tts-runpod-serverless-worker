@@ -11,7 +11,7 @@ docker build .
 ```
 
 ## Continuous Deployment
-This worker follows a modified version of the (worker template)[https://github.com/runpod-workers/worker-template] where the Docker build workflow contains additional SD models to be built and pushed.
+This worker follows a modified version of the [worker template](https://github.com/runpod-workers/worker-template) where the Docker build workflow contains additional SD models to be built and pushed.
 
 ## API
 
