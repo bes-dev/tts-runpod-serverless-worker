@@ -14,7 +14,7 @@ from scipy.io.wavfile import write
 
 
 # Model params
-model_dir = os.getenv("MODEL_DIR", "/model")
+model_dir = os.getenv("WORKER_MODEL_DIR", "/model")
 
 
 def upload_audio(wav, sample_rate, key):
@@ -59,8 +59,9 @@ def run(job):
         language=validated_input["language"],
         speaker_wav=validated_input["voice"],
         text=validated_input["text"],
-        gpt_cond_len=validated_input["gpt_cond_len"],
-        max_ref_len=validated_input["max_ref_len"]
+        gpt_cond_len=validated_input.get("gpt_cond_len", 7),
+        max_ref_len=validated_input.get("max_ref_len", 10),
+        speed=validated_input.get("speed", 1.0)
     )
 
     # Upload output object

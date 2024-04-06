@@ -5,7 +5,7 @@ import torch
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
 
-use_cuda = os.environ.get('TTS_WORKER_USE_CUDA', 'True').lower() == 'true'
+use_cuda = os.environ.get('WORKER_USE_CUDA', 'True').lower() == 'true'
 
 class Predictor:
     def __init__(self, model_dir: str):
@@ -33,7 +33,8 @@ class Predictor:
             speaker_wav: str,
             gpt_cond_len: int,
             max_ref_len: int,
-            language: str
+            language: str,
+            speed: float
     ):
         outputs = self.model.synthesize(
             text,
@@ -41,6 +42,8 @@ class Predictor:
             speaker_wav=speaker_wav,
             gpt_cond_len=gpt_cond_len,
             language=language,
-            enable_text_splitting=True
+            enable_text_splitting=True,
+            max_ref_len=max_ref_len,
+            speed=speed
         )
         return outputs['wav']

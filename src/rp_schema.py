@@ -19,5 +19,9 @@ INPUT_SCHEMA = {
     "max_ref_len": {
         "type": int,
         "required": True
+    },
+    "speed": {
+        "type": float,
+        "required": False,
     }
 }
