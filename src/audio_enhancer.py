@@ -67,13 +67,3 @@ class AudioEnhancer:
         assert 0 <= tau <= 1, f"tau must be in [0, 1], got {tau}"
         self.model.configurate_(nfe=nfe, solver=solver, lambd=lambd, tau=tau)
         return inference(model=self.model, dwav=wave, sr=sample_rate, device=self.device)
-
-
-if __name__ == "__main__":
-    import torchaudio
-    # enhancer = AudioEnhancer.from_pretrained(AudioEnhancer.setup())
-    enhancer = AudioEnhancer.from_pretrained("/home/sergei/work/generative_media/ckpt/resemble-enhance/enhancer_stage2")
-    # dwav, sr = torchaudio.load("/home/sergei/Desktop/female_ru_0001.wav")
-    # dwav = dwav.mean(0)
-    # hwav, sr = enhancer(dwav, sr)
-    # torchaudio.save("out.wav", hwav[None], sr)
