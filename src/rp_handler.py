@@ -55,17 +55,18 @@ def run(job):
     )
 
     # Inference text-to-audio
-    wav = MODEL.predict(
+    wave, sr = MODEL.predict(
         language=validated_input["language"],
         speaker_wav=validated_input["voice"],
         text=validated_input["text"],
         gpt_cond_len=validated_input.get("gpt_cond_len", 7),
         max_ref_len=validated_input.get("max_ref_len", 10),
-        speed=validated_input.get("speed", 1.0)
+        speed=validated_input.get("speed", 1.0),
+        enhance_audio=validated_input.get("enhance_audio", True)
     )
 
     # Upload output object
-    audio_return = upload_audio(wav, 24000, f"{job['id']}.wav")
+    audio_return = upload_audio(wave, sr, f"{job['id']}.wav")
     job_output = {
         "audio": audio_return
     }
