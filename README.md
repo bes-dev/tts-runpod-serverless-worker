@@ -9,6 +9,11 @@ This repository contains the worker for the xTTSv2 AI Endpoints.
 ```bash
 docker build .
 ```
+ or
+
+ ```bash
+ docker pull devbes/tts-runpod-serverless-worker:latest
+ ```
 
 ## Continuous Deployment
 This worker follows a modified version of the [worker template](https://github.com/runpod-workers/worker-template) where the Docker build workflow contains additional SD models to be built and pushed.
