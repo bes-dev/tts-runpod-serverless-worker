@@ -23,5 +23,9 @@ INPUT_SCHEMA = {
     "speed": {
         "type": float,
         "required": False,
+    },
+    "enhance_audio": {
+        "type": bool,
+        "required": True
     }
 }

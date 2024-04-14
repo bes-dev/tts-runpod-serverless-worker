@@ -40,11 +40,19 @@ RUN pip install --no-cache-dir -r ${WORKER_DIR}/requirements.txt && \
     rm ${WORKER_DIR}/requirements.txt
 RUN python3 -c "import deepspeed; print(deepspeed.__version__)"
 
+# Install Python dependencies (Worker Template)
+COPY builder/requirements_audio_enhancer.txt ${WORKER_DIR}/requirements_audio_enhancer.txt
+RUN pip install --no-cache-dir -r ${WORKER_DIR}/requirements_audio_enhancer.txt && \
+    rm ${WORKER_DIR}/requirements_audio_enhancer.txt
+
 # Fetch the model
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 RUN sudo apt-get install git-lfs
 RUN git lfs install
-RUN git clone https://huggingface.co/coqui/XTTS-v2 ${WORKER_MODEL_DIR}
+
+# Fetch XTTSv2 model
+RUN git clone https://huggingface.co/coqui/XTTS-v2 ${WORKER_MODEL_DIR}/xttsv2
+RUN git clone https://huggingface.co/ResembleAI/resemble-enhance ${WORKER_MODEL_DIR}/audio_enhancer
 
 # Add src files (Worker Template)
 ADD src ${WORKER_DIR}
