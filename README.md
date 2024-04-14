@@ -24,6 +24,7 @@ This worker follows a modified version of the [worker template](https://github.c
       "gpt_cond_len": <gpt_cond_len:int>,
       "max_ref_len": <max_ref_len:int>,
       "speed": <speed:float>
+      "enhance_audio": <enhance_audio:bool>
   }
 }
 ```
