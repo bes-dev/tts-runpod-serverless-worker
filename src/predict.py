@@ -37,24 +37,33 @@ class Predictor:
     def predict(
             self,
             text: str,
-            speaker_wav: str,
+            speaker_wav: dict,
             gpt_cond_len: int,
             max_ref_len: int,
             language: str,
             speed: float,
             enhance_audio: bool
     ):
-        outputs = self.model.synthesize(
-            text,
-            self.config,
-            speaker_wav=speaker_wav,
-            gpt_cond_len=gpt_cond_len,
-            language=language,
-            enable_text_splitting=True,
-            max_ref_len=max_ref_len,
-            speed=speed
-        )
-        wave, sr = outputs['wav'], 24000
+        silence = np.zeros(int(0.10 * SAMPLE_RATE))
+        wave, sr = None, None
+        for line in text:
+            voice = speaker_wav[line[0]]
+            outputs = self.model.synthesize(
+                line[1],
+                self.config,
+                speaker_wav=voice,
+                gpt_cond_len=gpt_cond_len,
+                language=language,
+                enable_text_splitting=True,
+                max_ref_len=max_ref_len,
+                speed=speed
+            )
+            _wave, _sr = outputs['wav'], 24000
+            if wave is None:
+                wave = _wave
+                sr = _sr
+            else:
+                wave = torch.cat([wave, silence.copy(), _wave], dim=1)
         if enhance_audio:
             wave, sr = self.audio_enhancer(
                 torch.from_numpy(wave),

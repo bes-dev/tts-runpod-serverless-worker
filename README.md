@@ -24,8 +24,16 @@ This worker follows a modified version of the [worker template](https://github.c
 {
   "input": {
       "language": <language:str>,
-      "voice": <url_of_voice_sample:str>,
-      "text": <text>:str,
+      "voice": {
+          "speaker_0": "url"
+          "speaker_1": "url"
+          },
+      "text": [
+          ["speaker_0", "text"],
+          ["speaker_1", "text"],
+          ...
+          ["speaker_1", "text"],
+      ],
       "gpt_cond_len": <gpt_cond_len:int>,
       "max_ref_len": <max_ref_len:int>,
       "speed": <speed:float>
