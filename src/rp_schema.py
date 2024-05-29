@@ -5,11 +5,11 @@ INPUT_SCHEMA = {
         "constraints": lambda language: language in ["en", "ru"]
     },
     "voice": {
-        "type": str,
+        "type": dict,
         "required": True
     },
     "text": {
-        "type": str,
+        "type": list,
         "required": True
     },
     "gpt_cond_len": {

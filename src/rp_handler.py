@@ -49,10 +49,11 @@ def run(job):
     validated_input = validated_input['validated_input']
 
     # Download input objects
-    validated_input["voice"] = rp_download.download_files_from_urls(
-        job['id'],
-        [validated_input.get('voice', None)]
-    )
+    for k, v in validated_input["voice"].items():
+        validated_input["voice"][k] = rp_download.download_files_from_urls(
+            job['id'],
+            [v]
+        )
 
     # Inference text-to-audio
     wave, sr = MODEL.predict(
