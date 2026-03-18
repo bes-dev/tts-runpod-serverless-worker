@@ -1,3 +1,4 @@
+import base64
 import io
 import os
 import argparse
@@ -35,7 +36,8 @@ def upload_audio(wav, sample_rate, key):
             }
         )
     # Base64 encode
-    return wav_io.decode('UTF-8')
+    wav_io.seek(0)
+    return base64.b64encode(wav_io.read()).decode('UTF-8')
 
 
 def run(job):
